@@ -1,0 +1,171 @@
+h1 {
+    text-align: center;
+    color: white;
+    font-family: calibri;
+}
+
+body {
+    min-height: 100vh;
+    width: auto;
+    background-image: linear-gradient(to bottom, rgb(50, 50, 50), rgb(0, 0, 100));
+}
+
+img {
+    position: absolute;
+    max-height: 100%;
+    min-height: 100%;
+    height: 60%;
+    width: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+h2, h3{
+    text-align: center;
+    color: white;
+    font-family: calibri;
+}
+
+p {
+    text-align: center;
+    color: white;
+    font-family: calibri;
+    margin-top: -10px;
+}
+
+button[id="buttonHT"] {
+    background-color: rgb(50, 50, 50);
+    border:2px solid;
+    border-color: rgb(0, 5, 200);
+    height: 30px;
+    z-index: 2;
+    text-align: center;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button[id="buttonHT"]:hover {
+    cursor: pointer;
+    border-color: rgb(0, 5, 255);
+    transition: 0.5s;
+}
+
+button[id="buttonLink"] {
+    background-color: rgb(50, 50, 50);
+    border:2px solid;
+    border-color: rgb(0, 5, 200);
+    height: 30px;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    color: white;
+    font-family: calibri;
+    font-size: 16px;
+
+}
+
+button[id="buttonLink"]:hover {
+    cursor: pointer;
+    border-color: rgb(0, 5, 255);
+    transition: 0.5s;
+    color: rgb(0, 200, 255);
+    font-weight: bold;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#linklist {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 500px;
+    width: auto;
+    overflow: hidden;
+}
+
+#linklist > #link_in {
+    border: 5px solid rgb(0, 0, 150);
+    height: 100%;
+    position: relative;
+    background: rgba(5, 5, 5, 60%);
+    right: -450px;
+    top: 30px;
+    transition: 0.5s;
+}
+
+#linklist > #link_out {
+    border: 5px solid rgb(0, 0, 150);
+    height: 100%;
+    position: relative;
+    background: rgba(5, 5, 5, 60%);
+    right: 0;
+    top: 30px;
+    transition: 0.5s;
+}
+
+#linklist > div > p[id="a"] {
+    margin-top: 10px;
+}
+
+.a {
+    position: absolute;
+    top: 0px;
+    right: 180px;
+    width: 60px;
+}
+
+.b {
+    position: absolute;
+    top: 0px;
+    right: 60px;
+    width: 110px;
+}
+
+
+a {
+    text-align: center;
+    font-weight: bold;
+    color: rgb(0, 100, 255);
+    text-decoration: none;
+    font-family: calibri;
+}
+
+a:hover {
+    color: rgb(0, 200, 255);
+    transition: 0.5s;
+}
+
+.container {
+    border: 5px solid rgb(0, 50, 255);
+    border-radius: 10px;
+    height: 200px;
+    width: 400px;
+    margin: auto;
+}
+
+
+.blob1 {
+    position: absolute;
+    border: 5px solid;
+    border-color: rgb(100, 100, 100);
+    border-radius: 50%;
+    background-image: linear-gradient(to right, rgb(0, 0 ,0) 50%, rgb(20, 20, 20), rgb(100, 100, 100), rgb(200, 200, 200));
+    width: 100px;
+    height: 100px;
+    top: 0;
+    right: 0;
+    animation: blob 3s infinite;
+}
+
+#stars {
+    margin: auto;
+}
