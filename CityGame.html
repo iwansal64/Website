@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+      :root {
+          --time-color: 225;
+          --lampu: yellow;
+      }
+
+      body {
+          background-image: linear-gradient(to bottom, rgb(0, 0, 220), rgb(var(--time-color), var(--time-color), var(--time-color)));
+          height: 100vh;
+          width: 100vh;
+          overflow: hidden;
+          font-family: monospace;
+      }
+
+      h1 {
+          text-align: center;
+          letter-spacing: 2px;
+          font-family: fantasy;
+          color: purple;
+      }
+
+      .info {
+          font-size: 18px;
+      }
+
+      #money {
+          color: rgb(0, 225, 100);
+      }
+
+      #workers {
+          color: rgb(0, 200, 225);
+      }
+
+      #happiness {
+          color: rgb(255, 192, 225);
+      }
+
+      #day {
+          color: rgb(225, 225, 100);
+      }
+
+      #office {
+          color: rgb(0, 200, 150);
+      }
+
+      .upgradehouse {
+          -webkit-text-stroke: 1px black;
+          position: absolute;
+          cursor: pointer;
+          height: 150px;
+          width: 170px;
+          border: 2px solid black;
+          transition: 0.2s;
+          background: var(--lampu);
+      }
+
+      .upgradehouse p {
+          font-family: serif;
+      }
+
+      .upgradehouse:hover {
+          border-color: rgb(0, 225, 100);
+          transition: 0.2s;
+      }
+
+      .upgradehouse:active {
+          border-color: rgb(225, 225, 225);
+          transition: 0.2s;
+      }
+
+      .workerhouse {
+          bottom: 10px;
+          border-top-left-radius: 50px;
+          border-top-right-radius: 50px;
+          color: black;
+      }
+
+      .candyhouse {
+          bottom: 10px;
+          left: 190px;
+          border-top-left-radius: 100px;
+          border-top-right-radius: 100px;
+          color: black;
+      }
+
+      .buildoffice {
+          bottom: 10px;
+          left: 370px;
+      }
+
+      .buyinfo {
+          position: absolute;
+          bottom: -15px;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: fit-content;
+          font-size: 0.8em;
+          text-align: center;
+          font-family: Helvetica;
+          font-weight: bold;
+      }
+
+      .upgrade-desc {
+          font-family: helvetica;
+          position: relative;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 130px;
+      }
+
+      .titlestuff {
+          font-weight: bold;
+          font-family: helvetica;
+          text-align: center;
+      }
+
+      #attackbtn {
+          cursor: pointer;
+          position: absolute;
+          right: 10px;
+          height: 100px;
+          width: 100px;
+          background-color: black;
+          border: 4px solid red;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      #attackbtn p {
+          position: absolute;
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+      }
+
+      #bulletpricecontainer {
+          position: absolute;
+          height: 35px;
+          width: 90px;
+          background-color: red;
+          border: 2px solid black;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          font-size: 10px;
+          right: 15px;
+          bottom: 145px;
+          cursor: pointer;
+      }
+
+      #attackbtn span span[id='bulletprice'] {
+          color: white;
+          z-index: 1;
+      }
+
+      #attackbtn p:nth-child(2) {
+          position: absolute;
+          font-size: 8px;
+          bottom: -40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      #bullet{
+          position: absolute;
+          right: -10px;   
+      }
+
+      .enemy {
+          position: absolute;
+          height: 130px;
+          width: 130px;
+          background-color: rgb(0, 0, 0);
+          right: -120px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: rotateZ(-90deg);
+          clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0 100%);
+          z-index: 1;
+      }
+
+      @keyframes enemyMove{
+          0% {
+              left: -120px;
+          }
+          10% {
+              top: 100px;
+              left: 150px;
+          }
+          20% {
+              top: 200px;
+              left: 200px;
+          }
+          50% {
+              top: 300px;
+              left: 500px;
+          }
+          100% {
+              top: 400px;
+              left: 1000px;
+          }
+      }
+
+      #core {
+          position: absolute;
+          height: 80%;
+          width: 80%;
+          background-color: red;
+          clip-path: polygon(0 50%, 50% 0, 100% 50%, 100% 100%, 0 100%);
+          z-index: -1;
+      }
+
+      #remainder {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 14px;
+          color: red;
+          font-weight: bold;
+      }
+
+      .price {
+          font-family: helvetica;
+      }
+
+      .restart {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          height: 50px;
+          width: 100px;
+          background-color: black;
+          color: red;
+          font-family: helvetica;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid red;
+          border-radius: 25px;
+          cursor: pointer;
+          transition: 0.2s;
+      }
+
+      .restart:hover {
+          border-color: black;
+          transition: 0.2s;
+      }
+
+      @media (max-width: 640px) {
+           .upgradehouse {
+              width: 100px;
+           }
+
+           .candyhouse {
+               left: 120px;
+           }
+
+           .buildoffice {
+               left: 240px;
+           }
+
+           .upgrade-desc {
+               visibility: hidden;
+           }
+      }
+
+      @media (max-height: 500px) {
+          #attackbtn {
+              top: 10px;
+          }
+      }
+    </style>
+</head>
+<body>
+    <p class='info'>Money = <span id='money'>50</span> (1 - <span id='moneyinfo'></span> per detik)</p>
+    <p class="info">Workers = <span id="workers">10</span> (maximum workers = <span id='workerslimit'></span>)</p>
+    <p class="info">Penduduk = <span id='penduduk'></span></p>
+    <p class="info">Happiness = <span id="happiness">100</span>%(decrease rate = <span id='happinessDecreaseRate'></span>%)</p>
+    <p class="info"><span id="office">1</span> office (max worker in office = <span id='officeLimit'></span></span>)</p>
+    <p class="info"><span id="day">0</span> day reached</p>
+    <div class='workerhouse upgradehouse' title='upgrade worker house to increase worker limit in your city' onclick='upgradeWorker()'>
+        <p class='titlestuff'>Upgrade house</p>
+        <p class='upgrade-desc'>menambah jumlah penduduk kamu</p>
+        <p class='buyinfo'>upgrade = <span id='hUpgrade' class='price'>100</span> money</p>
+    </div>
+    <div class='candyhouse upgradehouse' title='upgrade candy house to decrease happiness down' onclick='upgradeHappiness()'>
+        <p class='titlestuff'>Candy house</p>
+        <p class='upgrade-desc'>mengurangi happiness decrease rate</p>
+        <p class='buyinfo'>upgrade = <span id='cUpgrade' class='price'>50</span> money</p>
+    </div>
+    <div class='buildoffice upgradehouse' title='build office to build office :D' onclick='upgradeOffice()'>
+        <p class='titlestuff'>Build office</p>
+        <p class='upgrade-desc'>1 office menambah jumlah maksimum dalam kantor sebanyak 10</p>
+        <p class='buyinfo'>upgrade = <span id='oUpgrade' class='price'>150</span> money</p>
+    </div>
+    <div id="attackbtn" onclick='attack()'>
+        <p>attack</p>
+        <p>Peluru tersisa <span id="bullet">1</p></p>
+    </div>
+    <span id='bulletpricecontainer' onclick='buyBullet()'>
+        <p>Buy bullet = <span id="bulletprice">100</span></p>
+    </span>
+    <div class="enemy">
+        <div id="core"></div>
+    </div>
+    <p id="remainder"></p>
+    <div class="restart" onclick='restart()'>Restart</div>
+    <script>
+      // Variable
+      var timeColor = 225;
+      let body = document.body;
+      var root = document.querySelector(':root');
+      let day = 0;
+
+      // Workers
+      let workersHTML = document.getElementById('workers');
+      let workers = 10;
+      let workersPriceHTML = document.getElementById('hUpgrade');
+      let workersPrice = 100;
+
+      let workersLimit = 10;
+      let workersLimitHTML = document.getElementById('workerslimit')
+
+      // Money
+      let moneyHTML = document.getElementById('money');
+      let moneyInfoHTML = document.getElementById('moneyinfo');
+      let money = 550;
+
+      // Happiness
+      let happinessDecreaseRate = 10;
+      let happinessDecreaseRateHTML = document.getElementById('happinessDecreaseRate');
+      let happiness = 100;
+      let happinessHTML = document.getElementById('happiness');
+      let happinessPrice = 50;
+      let happinessPriceHTML = document.getElementById('cUpgrade')
+
+      // Office
+      let office = 1
+      let officeHTML = document.getElementById('office')
+      let officeLimitHTML = document.getElementById('officeLimit')
+      let officePrice = 150;
+      let officePriceHTML = document.getElementById('oUpgrade');
+
+      // Population
+      let pendudukHTML = document.getElementById('penduduk');
+
+      // Enemy
+      let musuh = false;
+      let musuhHTML = document.querySelector('.enemy');
+
+      // Attack
+      let bullet = 1
+      let bulletHTML = document.getElementById('bullet')
+
+      // Remainder
+      let remainderHTML = document.getElementById('remainder');
+
+      // Starting
+      moneyInfoHTML.innerHTML = (Math.floor(workers / 2)).toString()
+      workersLimitHTML.innerHTML = workersLimit.toString()
+      happinessDecreaseRateHTML.innerHTML = happinessDecreaseRate.toString()
+      officeLimitHTML.innerHTML = (office * 10).toString()
+      pendudukHTML.innerHTML = workersLimit.toString()
+
+      const sleep = (milliseconds) => {
+          return new Promise(resolve => setTimeout(resolve, milliseconds))
+      }
+
+      function randomizer(num1, num2) {
+          return Math.floor(Math.random() * num2) + num1;
+      }
+
+      var timeCondition = false;
+
+      mainGameLoop = setInterval(() => {
+          if(happiness > 0) {
+              let plus = randomizer(1, Math.floor(workers / 2));
+              money += plus
+              moneyHTML.innerHTML = money.toString()
+              if(remainderHTML.innerHTML == 'tingkat kesenangan penduduk kamu 0%. penduduk tidak mau bekerja') {
+                  remainderHTML.innerHTML = '';
+              }
+          }
+          else {
+              remainderHTML.innerHTML = 'tingkat kesenangan penduduk kamu 0%. penduduk tidak mau bekerja'
+          }
+          if(workers < workersLimit & workers < (office * 10)) {
+              workers += 1
+              workersHTML.innerHTML = workers.toString()
+              moneyInfoHTML.innerHTML = (Math.floor(workers / 2)).toString()
+          }
+          if(!timeCondition) {
+              if(timeColor <= 0) {
+                  timeCondition = true;
+                  day += 1
+                  document.getElementById('day').innerHTML = day
+                  sleep(10);
+              }
+              else {
+                  timeColor -= 5;
+              }
+          }
+          else {
+              if(timeColor >= 225) {
+                  timeCondition = false;
+                  sleep(10);
+              }
+              else {
+                  timeColor += 5;
+              }
+          }
+          root.style.setProperty('--time-color', timeColor)
+
+          if(timeColor > 100) {
+              root.style.setProperty('--lampu', 'gray')
+          }
+          else {
+              root.style.setProperty('--lampu', 'yellow')
+          }
+
+          let priceArr = {
+              'hUpgrade' : workersPrice,
+              'cUpgrade' : happinessPrice,
+              'oUpgrade' : officePrice
+          }
+          keyPrice = Object.keys(priceArr)
+          valuePrice = Object.values(priceArr)
+
+          for (let index = 0; index < keyPrice.length; index++) {
+              if(valuePrice[index] < money) {
+                  // console.log(valuePrice[index]+' | '+money)
+                  document.getElementById(keyPrice[index]).style.color = 'yellow';
+              }
+              else {
+                  document.getElementById(keyPrice[index]).style.color = 'black';
+              }
+          }
+
+      }, 1000);
+
+      happinessLoop = setInterval(() => {
+          if(happiness <= 0) {
+              return
+          }
+          happiness -= happinessDecreaseRate;
+          if(happiness <= 0) {
+              happiness = 0
+          }
+          happinessHTML.innerHTML = happiness.toString()
+      }, 5500);
+
+
+      enemyLoop = setInterval(() => {
+          if(money <= 200) {
+              return
+          }
+          musuh = true;
+          musuhHTML.style.animation = 'enemyMove 9s 1';
+          remainderHTML.innerHTML = 'musuh datang!'
+          setInterval(() => {
+              if(remainderHTML.innerHTML == 'musuh datang!') {
+                  remainderHTML.innerHTML = '';
+              }
+
+              if(musuh) {
+                  money -= 200
+                  if(money < 0) {
+                      money = 0;
+                  }
+                  moneyHTML.innerHTML = money.toString()
+                  remainderHTML.innerHTML = 'uang kamu telah dicuri sebagian!'
+                  setInterval(() => {
+                      if(remainderHTML.innerHTML == 'uang kamu telah dicuri sebagian!') {
+                          remainderHTML.innerHTML = '';
+                      }
+                  }, 1000);
+                  musuh = false;
+              }
+
+          }, 10000);
+      }, 30000);
+
+      function upgradeWorker() {
+          if(money < workersPrice) {
+              remainderHTML.innerHTML = `uang tidak cukup! butuh ${workersPrice} uang untuk membelinya`
+              setInterval(() => {
+                  remainderHTML.innerHTML = '';
+              }, 2000);
+              return
+          }
+          money -= workersPrice
+          moneyHTML.innerHTML = money.toString()
+          workersPrice *= 2
+          workersPriceHTML.innerHTML = workersPrice.toString()
+          workersLimit += 5
+          pendudukHTML.innerHTML = workersLimit.toString()
+          if(workersLimit < (office * 10)) {
+              workersLimitHTML.innerHTML = workersLimit.toString()
+          }
+          else {
+              workersLimitHTML.innerHTML = (office * 10).toString()
+          }
+          happinessDecreaseRate += 10;
+          happinessDecreaseRateHTML.innerHTML = happinessDecreaseRate.toString()
+      }
+
+      function upgradeHappiness() {
+          if(money < happinessPrice) {
+              remainderHTML.innerHTML = `uang tidak cukup! butuh ${happinessPrice} uang untuk membelinya`
+              setInterval(() => {
+                  remainderHTML.innerHTML = '';
+              }, 2000);
+              return
+          }
+          money -= happinessPrice
+          moneyHTML.innerHTML = money.toString()
+          happinessPrice *= 2
+          happinessPriceHTML.innerHTML = happinessPrice.toString()
+          happinessDecreaseRate -= 20;
+          if(happinessDecreaseRate < 0) {
+              happinessDecreaseRate = 0
+          }
+          happinessDecreaseRateHTML.innerHTML = happinessDecreaseRate.toString()
+          happiness = 100
+          happinessHTML.innerHTML = happiness.toString()
+      }
+
+      function attack() {
+          if(bullet <= 0) {
+              remainderHTML.innerHTML = 'kamu tidak punya bullet';
+              return
+          }
+          bullet--;
+          bulletHTML.innerHTML = bullet.toString()
+          if(musuh) {
+              musuh = false
+              remainderHTML.innerHTML = 'kamu telah mengalahkan musuh!'
+              musuhHTML.style.animation = 'none'
+              setInterval(() => {
+                  if(remainderHTML.innerHTML == 'kamu telah mengalahkan musuh!') {
+                      remainderHTML.innerHTML = '';
+                  }
+              }, 1000);
+          }
+      }
+
+      function buyBullet() {
+          if(money >= 50) {
+              money -= 50;
+              bullet += 2;
+              moneyHTML.innerHTML = money.toString()
+              bulletHTML.innerHTML = bullet.toString()
+          }
+      }
+
+      function upgradeOffice() {
+          if(money < officePrice) {
+              remainderHTML.innerHTML = `uang tidak cukup! butuh ${officePrice} uang untuk membelinya`
+              setInterval(() => {
+                  remainderHTML.innerHTML = '';
+              }, 2000);
+              return
+          }
+          money -= officePrice;
+          moneyHTML.innerHTML = money.toString();
+          office += 1;
+          officeHTML.innerHTML = office.toString();
+          officePrice *= 2;
+          officePriceHTML.innerHTML = officePrice.toString()
+          officeLimitHTML.innerHTML = (office * 10).toString()
+          if(workersLimit < (office * 10)) {
+              workersLimitHTML.innerHTML = workersLimit.toString()
+          }
+          else {
+              workersLimitHTML.innerHTML = (office * 10).toString()
+          }
+      }
+
+      function restart() {
+          clearInterval(enemyLoop);
+          clearInterval(mainGameLoop);
+          clearInterval(happinessLoop);
+
+          setInterval(enemyLoop);
+          setInterval(mainGameLoop);
+          setInterval(happinessLoop);
+
+          money = 50;
+
+          workers = 10;
+          workersPrice = 100;
+          workersLimit = 10;
+
+          happiness = 100;
+          happinessDecreaseRate = 10;
+          happinessPrice = 50;
+
+          office = 1;
+          officePrice = 150;
+
+          musuh = false;
+          musuhHTML.style.animation = 'none';
+
+          bullet = 1;
+
+          day = 0;
+
+          timeColor = 225;
+
+          moneyHTML.innerHTML = money.toString()
+          workersHTML.innerHTML = workers.toString()
+          happinessHTML.innerHTML = happiness.toString()
+          officeHTML.innerHTML = office.toString()
+          bulletHTML.innerHTML = bullet.toString()
+
+          workersPriceHTML.innerHTML = workersPrice.toString()
+          happinessPriceHTML.innerHTML = happinessPrice.toString()
+          officePriceHTML.innerHTML = officePrice.toString()
+
+          happinessDecreaseRateHTML.innerHTML = happinessDecreaseRate.toString();
+          document.getElementById('day').innerHTML = day
+
+          root.style.setProperty('--time-color', timeColor)
+      }
+    </script>
+</body>
+</html>
