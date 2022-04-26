@@ -18,12 +18,26 @@ body {
     background-image: linear-gradient(to bottom right, white 40%, #777777 80%);
 }
 
+#info-content {
+    border: 3px solid black;
+    background-image: linear-gradient(to bottom right, #333 60%, #000 90%);
+}
 
-#info-content h3{
+#info-content h3 {
     white-space: pre;
     color: red;
 }
 
+#info-content h2 {
+    text-align: center;
+    background-color: #0aa;
+}
+
+#info-content:hover {
+    background-image: linear-gradient(to bottom right, #333 70%, #000 90%);
+    cursor: pointer;
+    background-blend-mode: lighten;
+}
 
 .circle {
     border-radius: 50%;
@@ -55,6 +69,8 @@ body {
 .circle.in h2.content {
     transition: 0.5s;
     border-radius: 25px;
+    width: auto;
+    height: 25px;
 }
 
 .circle.in h2.myname {
@@ -64,7 +80,15 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 75px;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .circle.in h3 {
     top: 100px;
@@ -89,8 +113,6 @@ body {
     visibility: hidden;
     height:1px;
     width:1px;
-    border: 3px solid black;
-    background-color: #333333;
     transition: 1s;
 }
 
@@ -102,8 +124,6 @@ body {
     visibility: visible;
     height:500px;
     width:500px;
-    border: 3px solid black;
-    background-color: #333333;
     z-index: 2;
     transition: 1s;
 }
@@ -123,15 +143,20 @@ body {
     z-index: -1;
 }
 
+.tab:hover {
+    cursor: pointer;
+    filter: brightness(115%);
+}
+
 .tab.a {
     right: -300px;
     top: 0px;
-    background-color: red;
+    background-color: #c00;
 }
 .tab.b {
     bottom: -300px;
     right: 0px;
-    background-color: aqua;
+    background-color: #0aa;
 }
 .tab.c {
     bottom: 0px;
