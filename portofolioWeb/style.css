@@ -1,40 +1,60 @@
-@font-face {
-    font-family: Twentieth-Century;
-    src: url('../Font/Twentieth Century.ttf');
-}
 
 * {
-    font-family: Twentieth-Century;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
+    text-decoration: none;
 }
 
 h1 {
     text-align: center;
+    transform: translateZ(10px);
+    z-index: 10;
 }
 
 body {
     height: 100vh;
-    background-image: linear-gradient(to bottom right, white 40%, #777777 80%);
+    background-image: linear-gradient(to bottom right, #777777 10%, white 40%, white 70%, #777777 90%);
+    overflow: hidden;
 }
 
 #info-content {
     border: 3px solid black;
     background-image: linear-gradient(to bottom right, #333 60%, #000 90%);
+    display: flex;
 }
 
 #info-content h3 {
-    white-space: pre;
+    position: relative;
+    top: 150px;
+    left: calc(50% - 100px);
+    transform: translate(-50%, 0);
+    max-width: calc(100% - 100px);
+    white-space: pre-wrap;
     color: red;
 }
 
 #info-content h2 {
-    text-align: center;
+    position: relative;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: left;
+    width: auto;
+    height: 25px;
     background-color: #0aa;
 }
 
+#info-content h2.contact-me-title {
+    background-color : blue;
+    padding : 15px 15px;
+    border-radius : 10%;
+    top: 50%;
+    transform:translate(-50%, -50%)
+}
+
 #info-content:hover {
-    background-image: linear-gradient(to bottom right, #333 70%, #000 90%);
+    background-image: linear-gradient(to bottom right, #000 30%, #333 50%, #111 80%);
     cursor: pointer;
     background-blend-mode: lighten;
 }
@@ -49,36 +69,50 @@ body {
 }
 
 .circle.in {
-    background-color: #cccccc;
+    background-color: #ccc;
     height: 50%;
     width: 50%;
+    z-index: 2;
 }
 
-.circle.in h2, .circle.in h3 {
+.circle.in #title, .circle.in #content {
     position: absolute
 }
 
-.circle.in h2 {
-    top: 50px;
+.circle.in #title {
+    top: 150px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
     background-color: #666;
     border: 3px solid black;
 }
 
-.circle.in h2.content {
-    transition: 0.5s;
-    border-radius: 25px;
-    width: auto;
-    height: 25px;
+.circle.in #title:hover {
+    filter: brightness(110%);
 }
 
-.circle.in h2.myname {
+.circle.in #title.content {
+    transition: 0.5s;
+    border-radius: 15px;
+    top: calc(50% - 75px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    height: 25px;
+    width: 200px;
+}
+
+.circle.in #title.content.contact-me {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.circle.in #title.myname {
     transition: 0.5s;
     border-radius: 0px;
     cursor: default;
-    top: 50%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 75px;
     width: 150px;
@@ -87,13 +121,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 
-.circle.in h3 {
+.circle.in #content {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
+    width: 80%;
+    white-space: pre-wrap;
+    text-align: center;
+    font-weight: bold;
 }
 
 .circle.hiding {
@@ -101,13 +140,54 @@ body {
     overflow: hidden;
     height: 80%;
     width: 80%;
+    z-index: 0;
 }
 
 .circle.out {
     background-color: #555;
+    opacity: 1;
     height: 700px;
     width: 700px;
+    z-index: 0;
+    top: calc(50% + 50px)
 }
+
+.circle.circleDecor {
+    background-color: #c00;
+    height: 700px;
+    width: 700px;
+    z-index: -2;
+    top: calc(50% + 50px)
+}
+
+.circle.out #back, .circle.out #next {
+    background-color: #525252;
+    border: 3px solid #676767;
+    width: 75px;
+    height: 75px;
+    top: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.circle.out #back:active, .circle.out #next:active {
+    filter: brightness(110%);
+}
+
+.circle.out #back {
+    left: calc(50% - 50px);
+    transform: translateX(-50%)
+}
+
+.circle.out #next {
+    left: calc(50% + 50px);
+    transform: translateX(-50%)
+}
+
 
 .circle.popdown {
     visibility: hidden;
@@ -124,7 +204,7 @@ body {
     visibility: visible;
     height:500px;
     width:500px;
-    z-index: 2;
+    z-index: 5;
     transition: 1s;
 }
 
@@ -141,6 +221,8 @@ body {
     height: 50%;
     width: 50%;
     z-index: -1;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .tab:hover {
@@ -167,5 +249,11 @@ body {
     top: -300px;
     left: 0px;
     background-color: purple;
+}
+
+.decor {
+    background-color: #333;
+    position: absolute;
+    z-index: -3;
 }
 
